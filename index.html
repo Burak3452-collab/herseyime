@@ -1,0 +1,2000 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <title>Her Şeyin Başladığı O Tarih...</title>
+
+  <!-- Google Fonts: Playfair Display, Caveat (El Yazısı) ve Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" 
+  href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Playfair+Display:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+    media="print"
+    onload="this.media='all'"
+  />
+  <noscript>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Playfair+Display:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </noscript>
+
+  <style>
+    /* ==========================================================================
+       1. TEMA RENKLERİ, TİPOGRAFİ VE GENEL STİLLER
+       ========================================================================== */
+    :root {
+      --bg-top: #fff5f7;
+      --bg-bottom: #fde8ee;
+      --card-bg: #ffffff;
+      --paper-cream: #fffdf9;
+      --heading-crimson: #9f1239;
+      --text-burgundy: #881337;
+      --rose-accent: #e11d48;
+      --rose-deep: #be123c;
+      --blush-pill: #ffe4e9;
+      --border-soft: rgba(225, 29, 72, 0.16);
+      --shadow-card: 0 14px 34px -10px rgba(159, 18, 57, 0.13);
+      --shadow-soft: 0 20px 48px -14px rgba(159, 18, 57, 0.16);
+
+      --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
+      --font-hand: 'Caveat', 'Snell Roundhand', 'Apple Chancery', cursive;
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
+      background-attachment: fixed;
+      color: var(--text-burgundy);
+      min-height: 100vh;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* ==========================================================================
+       2. KİLİT EKRANI (PAROLA: 3006)
+       ========================================================================== */
+    .lock-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.25rem;
+      background: linear-gradient(160deg, #fff5f7 0%, #fde8ee 100%);
+      transition: opacity 0.45s ease, visibility 0.45s ease, transform 0.45s ease;
+      overflow: hidden;
+    }
+
+    .lock-screen.unlocked {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transform: scale(1.03);
+    }
+
+    .lock-hearts-bg {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .floating-bg-heart {
+      position: absolute;
+      bottom: -30px;
+      color: rgba(225, 29, 72, 0.16);
+      animation: floatHeartUp linear infinite;
+      user-select: none;
+    }
+
+    @keyframes floatHeartUp {
+      0% { transform: translateY(0) scale(0.9); opacity: 0; }
+      15% { opacity: 1; }
+      85% { opacity: 0.9; }
+      100% { transform: translateY(-108vh) scale(1.2); opacity: 0; }
+    }
+
+    .lock-card {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 430px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-soft);
+      border-radius: 22px;
+      padding: 2.35rem 1.85rem;
+      text-align: center;
+      box-shadow: 0 24px 55px -15px rgba(159, 18, 57, 0.2);
+    }
+
+    .lock-card.shake {
+      animation: cardShake 0.45s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+    }
+
+    @keyframes cardShake {
+      10%, 90% { transform: translateX(-3px); }
+      20%, 80% { transform: translateX(5px); }
+      30%, 50%, 70% { transform: translateX(-7px); }
+      40%, 60% { transform: translateX(7px); }
+    }
+
+    .lock-badge-circle {
+      position: relative;
+      width: 68px;
+      height: 68px;
+      margin: 0 auto 1.25rem;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #fff1f2, #ffe4e6);
+      border: 1px solid rgba(225, 29, 72, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--heading-crimson);
+    }
+
+    .lock-badge-heart {
+      position: absolute;
+      right: -2px;
+      bottom: -2px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--rose-accent);
+      color: #ffffff;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(225, 29, 72, 0.35);
+    }
+
+    .lock-heading {
+      font-family: var(--font-display);
+      font-size: clamp(1.65rem, 5vw, 2.05rem);
+      font-weight: 700;
+      color: var(--heading-crimson);
+      line-height: 1.24;
+      margin-bottom: 0.7rem;
+    }
+
+    .lock-subtitle {
+      font-size: 0.93rem;
+      color: var(--text-burgundy);
+      margin-bottom: 1.55rem;
+      line-height: 1.55;
+    }
+
+    .password-field-wrap {
+      position: relative;
+      margin-bottom: 0.85rem;
+    }
+
+    .password-field {
+      width: 100%;
+      padding: 0.95rem 3rem 0.95rem 1.2rem;
+      border-radius: 16px;
+      border: 1.5px solid rgba(225, 29, 72, 0.24);
+      background: #fff9fa;
+      color: var(--heading-crimson);
+      font-family: var(--font-sans);
+      font-size: 1.08rem;
+      font-weight: 700;
+      text-align: center;
+      letter-spacing: 0.2em;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    }
+
+    .password-field::placeholder {
+      letter-spacing: normal;
+      font-weight: 400;
+      color: rgba(159, 18, 57, 0.45);
+    }
+
+    .password-field:focus {
+      border-color: var(--rose-accent);
+      box-shadow: 0 0 0 4px rgba(225, 29, 72, 0.12);
+      background: #ffffff;
+    }
+
+    .toggle-pass-btn {
+      position: absolute;
+      right: 0.65rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 38px;
+      height: 38px;
+      border: none;
+      background: transparent;
+      color: var(--rose-accent);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+    }
+
+    .toggle-pass-btn:hover {
+      background: #fff1f2;
+    }
+
+    .lock-error-msg {
+      min-height: 1.45rem;
+      font-size: 0.87rem;
+      font-weight: 600;
+      color: var(--rose-accent);
+      margin-bottom: 0.85rem;
+      opacity: 0;
+      transform: translateY(-4px);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    .lock-error-msg.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .unlock-btn {
+      width: 100%;
+      padding: 0.95rem 1.5rem;
+      border: none;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--rose-accent) 0%, var(--heading-crimson) 100%);
+      color: #ffffff;
+      font-family: var(--font-sans);
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 12px 24px -6px rgba(225, 29, 72, 0.38);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .unlock-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 16px 28px -6px rgba(225, 29, 72, 0.45);
+    }
+
+    /* ==========================================================================
+       3. ÜST YÜZEN ÇUBUK & ANA YERLEŞİM
+       ========================================================================== */
+    .main-app.is-locked {
+      display: none;
+    }
+
+    .floating-top-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.85rem 1.25rem;
+      pointer-events: none;
+    }
+
+    .top-pill-date,
+    .top-pill-lock {
+      pointer-events: auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.44rem 1rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.94);
+      border: 1px solid rgba(225, 29, 72, 0.18);
+      box-shadow: 0 6px 18px rgba(159, 18, 57, 0.09);
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: var(--heading-crimson);
+    }
+
+    .top-pill-date {
+      letter-spacing: 0.03em;
+    }
+
+    .top-pill-lock {
+      cursor: pointer;
+      font-family: var(--font-sans);
+      font-weight: 600;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .top-pill-lock:hover {
+      background: #fff1f2;
+      transform: translateY(-1px);
+    }
+
+    .page-container {
+      width: 100%;
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 4.5rem 1.25rem 2rem;
+    }
+
+    .section-wrap {
+      padding: 2.75rem 0;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 2.2rem;
+    }
+
+    .eyebrow-badge {
+      display: inline-block;
+      font-size: 0.74rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--rose-accent);
+      background: var(--blush-pill);
+      border: 1px solid rgba(225, 29, 72, 0.16);
+      padding: 0.36rem 1rem;
+      border-radius: 999px;
+      margin-bottom: 0.75rem;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 4.5vw, 2.5rem);
+      font-weight: 700;
+      color: var(--heading-crimson);
+      line-height: 1.2;
+      margin-bottom: 0.45rem;
+    }
+
+    .section-subtitle {
+      font-size: 0.95rem;
+      color: var(--text-burgundy);
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    /* ==========================================================================
+       4. HERO & CANLI BİRLİKTELİK SAYACI (30 HAZİRAN 2025'TEN BERİ)
+       ========================================================================== */
+    .hero-section {
+      padding-top: 1.8rem;
+      padding-bottom: 2.2rem;
+      text-align: center;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.1rem, 6vw, 3.35rem);
+      font-weight: 700;
+      color: var(--heading-crimson);
+      line-height: 1.18;
+      margin-bottom: 0.75rem;
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.96rem, 2.5vw, 1.08rem);
+      color: var(--text-burgundy);
+      max-width: 580px;
+      margin: 0 auto 2.1rem;
+    }
+
+    .counter-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.95rem;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 560px) {
+      .counter-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+      }
+    }
+
+    .counter-box {
+      background: var(--card-bg);
+      border: 1px solid var(--border-soft);
+      border-radius: 22px;
+      padding: 1.3rem 0.75rem;
+      box-shadow: var(--shadow-card);
+    }
+
+    .counter-value {
+      display: block;
+      font-family: var(--font-display);
+      font-size: clamp(1.95rem, 5vw, 2.65rem);
+      font-weight: 700;
+      color: var(--rose-accent);
+      line-height: 1.1;
+      font-variant-numeric: tabular-nums;
+      margin-bottom: 0.35rem;
+    }
+
+    .counter-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: var(--text-burgundy);
+    }
+
+    /* ==========================================================================
+       5. BİZİM ŞARKIMIZ - VİNYL PLAK ÇALAR (GÖKHAN TÜRKMEN - AŞK)
+       ========================================================================== */
+    .music-card {
+      max-width: 600px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      border: 1px solid var(--border-soft);
+      border-radius: 22px;
+      padding: 2rem 1.5rem;
+      box-shadow: var(--shadow-soft);
+      text-align: center;
+    }
+
+    .turntable-stage {
+      position: relative;
+      width: 170px;
+      height: 170px;
+      margin: 0.4rem auto 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .vinyl-disc {
+      width: 158px;
+      height: 158px;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at center, #1f161b 0%, #1f161b 24%, transparent 25%),
+        repeating-radial-gradient(circle at center, #181014 0px, #181014 3px, #2d1e26 4px, #181014 6px);
+      box-shadow: 0 14px 30px rgba(136, 19, 55, 0.24);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: rotateVinyl 9s linear infinite;
+      animation-play-state: paused;
+    }
+
+    .vinyl-disc.playing {
+      animation-play-state: running;
+    }
+
+    @keyframes rotateVinyl {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .vinyl-label {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--rose-accent), var(--heading-crimson));
+      border: 3px solid var(--blush-pill);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-size: 1.15rem;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .vinyl-label img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: none;
+    }
+
+    .vinyl-label img.loaded {
+      display: block;
+    }
+
+    .vinyl-spindle {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #fff5f7;
+      border: 1.5px solid var(--heading-crimson);
+      z-index: 2;
+    }
+
+    .tonearm-svg {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      width: 54px;
+      height: 78px;
+      pointer-events: none;
+      transform-origin: 42px 12px;
+      transform: rotate(-22deg);
+      transition: transform 0.5s ease;
+    }
+
+    .tonearm-svg.playing {
+      transform: rotate(6deg);
+    }
+
+    .song-title {
+      font-family: var(--font-display);
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: var(--heading-crimson);
+      line-height: 1.2;
+    }
+
+    .song-artist {
+      font-size: 0.96rem;
+      font-weight: 600;
+      color: var(--rose-accent);
+      margin-top: 0.2rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .progress-wrap {
+      margin-bottom: 1.15rem;
+    }
+
+    .progress-bar-bg {
+      width: 100%;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--blush-pill);
+      cursor: pointer;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-bar-fill {
+      width: 0%;
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--rose-accent), var(--heading-crimson));
+      transition: width 0.12s linear;
+    }
+
+    .progress-times {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-burgundy);
+      margin-top: 0.4rem;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .player-controls {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.9rem;
+    }
+
+    .play-pause-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      min-width: 158px;
+      padding: 0.82rem 1.65rem;
+      border: none;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--rose-accent), var(--heading-crimson));
+      color: #ffffff;
+      font-family: var(--font-sans);
+      font-size: 0.96rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 10px 22px -6px rgba(225, 29, 72, 0.38);
+      transition: transform 0.2s;
+    }
+
+    .play-pause-btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .volume-box {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      padding: 0.45rem 1rem;
+      border-radius: 999px;
+      background: #fff5f7;
+      border: 1px solid var(--border-soft);
+      font-size: 0.83rem;
+      font-weight: 600;
+      color: var(--heading-crimson);
+    }
+
+    .volume-slider {
+      width: 118px;
+      accent-color: var(--rose-accent);
+      cursor: pointer;
+    }
+
+    .player-hint {
+      font-size: 0.78rem;
+      color: var(--text-burgundy);
+      min-height: 1.1rem;
+      margin-top: 0.5rem;
+    }
+
+    /* ==========================================================================
+       6. BİZİM HİKAYEMİZDEN KARELER - 3 POLAROİD KARTI
+       ========================================================================== */
+    .polaroid-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      align-items: stretch;
+    }
+
+    @media (max-width: 860px) {
+      .polaroid-grid {
+        grid-template-columns: 1fr;
+        max-width: 420px;
+        margin: 0 auto;
+      }
+    }
+
+    .polaroid-card {
+      position: relative;
+      min-height: 416px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .polaroid-inner {
+      width: 100%;
+      height: 100%;
+      min-height: 416px;
+      border-radius: 22px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-soft);
+      box-shadow: var(--shadow-card);
+      transition: transform 0.18s ease-out, box-shadow 0.22s ease;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .polaroid-card:hover .polaroid-inner {
+      box-shadow: 0 18px 36px -10px rgba(159, 18, 57, 0.2);
+    }
+
+    .polaroid-card.turning .polaroid-inner {
+      transform: scaleX(0.04);
+      transition: transform 0.15s ease-in;
+    }
+
+    /* Ön Yüz */
+    .polaroid-front {
+      width: 100%;
+      height: 100%;
+      min-height: 416px;
+      padding: 1rem 1rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .polaroid-card.is-flipped .polaroid-front {
+      display: none;
+    }
+
+    .polaroid-frame {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      border-radius: 14px;
+      background: linear-gradient(145deg, #fff1f2 0%, #ffe4e6 100%);
+      border: 1.5px dashed rgba(225, 29, 72, 0.26);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0.95rem;
+    }
+
+    .polaroid-frame.has-image {
+      border-style: solid;
+      border-color: rgba(225, 29, 72, 0.14);
+    }
+
+    .polaroid-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: none;
+    }
+
+    .polaroid-frame.has-image img {
+      display: block;
+    }
+
+    .polaroid-empty-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      color: var(--heading-crimson);
+      opacity: 0.72;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    .polaroid-frame.has-image .polaroid-empty-placeholder {
+      display: none;
+    }
+
+    .placeholder-cam-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.85);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--rose-accent);
+      box-shadow: 0 4px 12px rgba(159, 18, 57, 0.08);
+    }
+
+    .placeholder-label {
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      color: var(--heading-crimson);
+    }
+
+    .polaroid-meta {
+      text-align: center;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .polaroid-card-title {
+      font-family: var(--font-display);
+      font-size: 1.24rem;
+      font-weight: 700;
+      color: var(--heading-crimson);
+      line-height: 1.25;
+    }
+
+    .polaroid-card-subtitle {
+      font-family: var(--font-hand);
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--rose-accent);
+      margin-top: 0.12rem;
+      line-height: 1.2;
+    }
+
+    .polaroid-flip-hint {
+      font-size: 0.77rem;
+      font-weight: 600;
+      color: rgba(159, 18, 57, 0.75);
+      margin-top: 0.35rem;
+    }
+
+    /* Arka Yüz (Çizgili Krem Kağıt + El Yazısı Not) */
+    .polaroid-back {
+      display: none;
+      width: 100%;
+      height: 100%;
+      min-height: 416px;
+      padding: 1.75rem 1.45rem 1.35rem;
+      text-align: center;
+      flex-direction: column;
+      justify-content: space-between;
+      background:
+        repeating-linear-gradient(
+          to bottom,
+          #fffdf9 0px,
+          #fffdf9 28px,
+          rgba(225, 29, 72, 0.09) 29px
+        );
+    }
+
+    .polaroid-card.is-flipped .polaroid-back {
+      display: flex;
+    }
+
+    .polaroid-back-heart {
+      font-size: 1.35rem;
+      color: var(--rose-accent);
+      line-height: 1;
+    }
+
+    .polaroid-back-note {
+      font-family: var(--font-hand);
+      font-size: 1.45rem;
+      font-weight: 600;
+      line-height: 1.45;
+      color: var(--text-burgundy);
+      margin: auto 0;
+    }
+
+    /* ==========================================================================
+       7. RUH HALİNİN ZARFLARI (KATLANMIŞ ZARF + 30.06 ♥ BALMUMU MÜHÜR)
+       ========================================================================== */
+    .envelopes-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 600px) {
+      .envelopes-grid {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+      }
+    }
+
+    .envelope-item {
+      position: relative;
+      height: 214px;
+      border-radius: 22px;
+      background: linear-gradient(160deg, #ffe4e9 0%, #fda4af 100%);
+      border: 1px solid rgba(225, 29, 72, 0.22);
+      box-shadow: var(--shadow-card);
+      cursor: pointer;
+      overflow: hidden;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .envelope-item:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 36px -10px rgba(159, 18, 57, 0.22);
+    }
+
+    .envelope-letter-peek {
+      position: absolute;
+      left: 10%;
+      right: 10%;
+      top: 12%;
+      height: 68%;
+      border-radius: 10px;
+      background:
+        repeating-linear-gradient(
+          to bottom,
+          #fffdf9 0px,
+          #fffdf9 18px,
+          rgba(225, 29, 72, 0.08) 19px
+        );
+      box-shadow: 0 4px 12px rgba(159, 18, 57, 0.12);
+      z-index: 2;
+      transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .envelope-item.opening .envelope-letter-peek {
+      transform: translateY(-28px);
+    }
+
+    .envelope-pocket-left {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #ffe4e9 0%, #fecdd3 100%);
+      clip-path: polygon(0 0, 52% 52%, 0 100%);
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .envelope-pocket-right {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(225deg, #ffe4e9 0%, #fda4af 100%);
+      clip-path: polygon(100% 0, 48% 52%, 100% 100%);
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .envelope-pocket-bottom {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, #fff1f2 0%, #ffe4e9 100%);
+      clip-path: polygon(0 100%, 50% 42%, 100% 100%);
+      filter: drop-shadow(0 -3px 6px rgba(159, 18, 57, 0.12));
+      z-index: 4;
+      pointer-events: none;
+    }
+
+    .envelope-flap-top {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, #fb7185 0%, #ffe4e9 100%);
+      clip-path: polygon(0 0, 100% 0, 50% 52%);
+      transform-origin: top center;
+      transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+      z-index: 5;
+      pointer-events: none;
+    }
+
+    .envelope-item.opening .envelope-flap-top {
+      transform: scaleY(-1);
+      opacity: 0.35;
+      z-index: 1;
+    }
+
+    .wax-seal {
+      position: absolute;
+      left: 50%;
+      top: 43%;
+      transform: translate(-50%, -50%);
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 32% 30%, #f43f5e 0%, #e11d48 55%, #9f1239 100%);
+      border: 2.5px solid rgba(255, 228, 230, 0.55);
+      box-shadow:
+        0 8px 16px rgba(159, 18, 57, 0.36),
+        inset 0 2px 4px rgba(255, 255, 255, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff1f2;
+      font-family: var(--font-display);
+      font-size: 0.72rem;
+      font-weight: 700;
+      z-index: 6;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      pointer-events: none;
+    }
+
+    .envelope-item.opening .wax-seal {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.75);
+    }
+
+    .envelope-label-card {
+      position: absolute;
+      left: 1.1rem;
+      right: 1.1rem;
+      bottom: 0.95rem;
+      z-index: 7;
+      background: rgba(255, 253, 249, 0.97);
+      border: 1px solid rgba(225, 29, 72, 0.2);
+      border-radius: 14px;
+      padding: 0.62rem 0.9rem;
+      text-align: center;
+      box-shadow: 0 6px 16px rgba(159, 18, 57, 0.11);
+      pointer-events: none;
+    }
+
+    .envelope-title {
+      font-family: var(--font-display);
+      font-size: 1.08rem;
+      font-weight: 700;
+      color: var(--heading-crimson);
+      line-height: 1.25;
+    }
+
+    /* Mektup Okuma Modalı */
+    .letter-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.25rem;
+      background: rgba(76, 5, 25, 0.55);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .letter-modal-backdrop.open {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    .modal-floating-hearts {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .modal-rise-heart {
+      position: absolute;
+      bottom: -24px;
+      color: rgba(255, 228, 230, 0.85);
+      animation: modalRiseHeart linear forwards;
+    }
+
+    @keyframes modalRiseHeart {
+      0% { transform: translateY(0) scale(0.8); opacity: 0; }
+      15% { opacity: 0.9; }
+      100% { transform: translateY(-95vh) scale(1.25); opacity: 0; }
+    }
+
+    .letter-paper-modal {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 520px;
+      border-radius: 22px;
+      background:
+        repeating-linear-gradient(
+          to bottom,
+          #fffdf9 0px,
+          #fffdf9 31px,
+          rgba(225, 29, 72, 0.09) 32px
+        );
+      border: 1px solid rgba(225, 29, 72, 0.22);
+      box-shadow: 0 28px 65px -12px rgba(76, 5, 25, 0.45);
+      padding: 2rem 1.75rem 1.75rem;
+      transform: translateY(16px) scale(0.96);
+      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .letter-modal-backdrop.open .letter-paper-modal {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal-pill {
+      display: inline-block;
+      padding: 0.3rem 0.85rem;
+      border-radius: 999px;
+      background: var(--blush-pill);
+      color: var(--rose-accent);
+      font-size: 0.78rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+
+    .modal-letter-title {
+      font-family: var(--font-display);
+      font-size: 1.58rem;
+      font-weight: 700;
+      color: var(--heading-crimson);
+      margin-bottom: 0.95rem;
+      line-height: 1.25;
+    }
+
+    .modal-letter-body {
+      font-family: var(--font-hand);
+      font-size: 1.55rem;
+      font-weight: 600;
+      line-height: 1.48;
+      color: var(--text-burgundy);
+      margin-bottom: 1.35rem;
+      white-space: pre-line;
+    }
+
+    .modal-close-btn {
+      width: 100%;
+      padding: 0.82rem 1.25rem;
+      border: none;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--rose-accent), var(--heading-crimson));
+      color: #ffffff;
+      font-family: var(--font-sans);
+      font-size: 0.94rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* ==========================================================================
+       8. FOOTER
+       ========================================================================== */
+    .romantic-footer {
+      text-align: center;
+      padding: 2rem 1rem 3rem;
+      font-family: var(--font-hand);
+      font-size: 1.45rem;
+      font-weight: 600;
+      color: var(--heading-crimson);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========================================================================
+       1. KİLİT EKRANI (PAROLA: 3006)
+       ======================================================================== -->
+  <div id="lock-screen" class="lock-screen" role="dialog" aria-modal="true" aria-labelledby="lock-heading">
+    <div id="lock-hearts-bg" class="lock-hearts-bg" aria-hidden="true"></div>
+
+    <div id="lock-card" class="lock-card">
+      <div class="lock-badge-circle" aria-hidden="true">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="11" width="18" height="11" rx="3" ry="3"></rect>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+        </svg>
+        <span class="lock-badge-heart">♥</span>
+      </div>
+
+      <h1 id="lock-heading" class="lock-heading">Her Şeyin Başladığı O Tarih...</h1>
+      <p class="lock-subtitle">İçeri girmek için gizli parolamızı girmen gerekiyor. Başlıkta küçük bir ipucu bıraktım... 😼</p>
+
+      <form id="unlock-form" autocomplete="off">
+        <div class="password-field-wrap">
+          <input
+            id="password-field"
+            class="password-field"
+            type="password"
+            inputmode="numeric"
+            placeholder="Parolayı yaz..."
+            aria-label="Gizli parola"
+          />
+          <button
+            type="button"
+            id="toggle-pass-btn"
+            class="toggle-pass-btn"
+            aria-label="Parolayı göster veya gizle"
+            title="Göster / Gizle"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+          </button>
+        </div>
+
+        <div id="lock-error-msg" class="lock-error-msg" role="alert">
+          Hımm, yanlış tahmin... Biraz daha düşün bakalım 😼
+        </div>
+
+        <button type="submit" class="unlock-btn">Kilidi Aç →</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       2. ANA UYGULAMA
+       ======================================================================== -->
+  <div id="main-app" class="main-app is-locked">
+
+    <!-- Üst Yüzen Çubuk -->
+    <header class="floating-top-bar">
+      <div class="top-pill-date">30.06.2025 ♥</div>
+      <button type="button" id="top-lock-btn" class="top-pill-lock">🔒 Kilitle</button>
+    </header>
+
+    <main class="page-container">
+
+      <!-- HERO & CANLI BİRLİKTELİK SAYACI -->
+      <section class="hero-section" aria-labelledby="hero-title">
+        <span class="eyebrow-badge">30 HAZİRAN 2025'TEN BERİ</span>
+        <h1 id="hero-title" class="hero-title">Her Şeyin Başladığı O Tarih...</h1>
+        <p class="hero-subtitle">Kalbimizin aynı ritimde atmaya başladığı o günden bu yana geçen her an...</p>
+
+        <div class="counter-grid" aria-label="Birliktelik sayacı">
+          <div class="counter-box">
+            <span id="count-days" class="counter-value">0</span>
+            <span class="counter-label">GÜN</span>
+          </div>
+          <div class="counter-box">
+            <span id="count-hours" class="counter-value">00</span>
+            <span class="counter-label">SAAT</span>
+          </div>
+          <div class="counter-box">
+            <span id="count-minutes" class="counter-value">00</span>
+            <span class="counter-label">DAKİKA</span>
+          </div>
+          <div class="counter-box">
+            <span id="count-seconds" class="counter-value">00</span>
+            <span class="counter-label">SANİYE</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- BİZİM ŞARKIMIZ - VİNYL PLAK ÇALAR (GÖKHAN TÜRKMEN - AŞK) -->
+      <section class="section-wrap" aria-labelledby="music-badge">
+        <div class="music-card">
+          <span id="music-badge" class="eyebrow-badge">BİZİM ŞARKIMIZ</span>
+
+          <div class="turntable-stage">
+            <div id="vinyl-disc" class="vinyl-disc">
+              <div class="vinyl-label">
+                <img id="album-cover-img" alt="Gökhan Türkmen - Aşk albüm kapağı" />
+                <span id="vinyl-heart-icon">♥</span>
+                <span class="vinyl-spindle"></span>
+              </div>
+            </div>
+
+            <!-- Gramofon İğne Kolu -->
+            <svg id="tonearm-svg" class="tonearm-svg" viewBox="0 0 60 90" fill="none" aria-hidden="true">
+              <circle cx="46" cy="14" r="9" fill="#ffe4e9" stroke="#9f1239" stroke-width="2.5" />
+              <circle cx="46" cy="14" r="3.5" fill="#9f1239" />
+              <path d="M46 14 L34 56 L22 72" stroke="#9f1239" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+              <rect x="16" y="68" width="10" height="13" rx="2.5" transform="rotate(34 16 68)" fill="#e11d48" />
+            </svg>
+          </div>
+
+          <h2 class="song-title">Aşk</h2>
+          <p class="song-artist">Gökhan Türkmen</p>
+
+          <div class="progress-wrap">
+            <div id="progress-bar-bg" class="progress-bar-bg" role="slider" aria-label="Şarkı ilerleme çubuğu" tabindex="0">
+              <div id="progress-bar-fill" class="progress-bar-fill"></div>
+            </div>
+            <div class="progress-times">
+              <span id="time-current">00:00</span>
+              <span id="time-duration">00:29</span>
+            </div>
+          </div>
+
+          <div class="player-controls">
+            <button type="button" id="play-pause-btn" class="play-pause-btn">
+              <span id="play-pause-icon">▶</span>
+              <span id="play-pause-text">Çal</span>
+            </button>
+
+            <div class="volume-box">
+              <span aria-hidden="true">🔉</span>
+              <input
+                type="range"
+                id="volume-slider"
+                class="volume-slider"
+                min="0"
+                max="100"
+                value="50"
+                aria-label="Ses seviyesi"
+              />
+              <span id="volume-label">%50</span>
+            </div>
+          </div>
+
+          <p id="player-hint" class="player-hint"></p>
+
+          <audio id="audio-player" preload="auto" loop></audio>
+        </div>
+      </section>
+
+      <!-- BİZİM HİKAYEMİZDEN KARELER - 3 POLAROİD KARTI -->
+      <section class="section-wrap" aria-labelledby="gallery-title">
+        <div class="section-header">
+          <span class="eyebrow-badge">KARE KARE BİZ</span>
+          <h2 id="gallery-title" class="section-title">Bizim Hikayemizden Kareler</h2>
+          <p class="section-subtitle">Kartların üzerine dokunarak arkalarındaki küçük notları okuyabilirsin...</p>
+        </div>
+
+        <div id="polaroid-grid" class="polaroid-grid"></div>
+      </section>
+
+      <!-- RUH HALİNİN ZARFLARI -->
+      <section class="section-wrap" aria-labelledby="envelopes-title">
+        <div class="section-header">
+          <span class="eyebrow-badge">RUH HALİNİN ZARFLARI</span>
+          <h2 id="envelopes-title" class="section-title">Sadece Senin İçin Mektuplar</h2>
+          <p class="section-subtitle">Ne zaman ihtiyacın olursa, o anki hissine dokun...</p>
+        </div>
+
+        <div id="envelopes-grid" class="envelopes-grid"></div>
+      </section>
+
+    </main>
+
+    <footer class="romantic-footer">
+      30.06.2025'ten sonsuza... ♥
+    </footer>
+  </div>
+
+  <!-- ========================================================================
+       3. MEKTUP OKUMA MODALI
+       ======================================================================== -->
+  <div id="letter-modal-backdrop" class="letter-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-letter-title">
+    <div id="modal-floating-hearts" class="modal-floating-hearts" aria-hidden="true"></div>
+    <div class="letter-paper-modal">
+      <span class="modal-pill">30.06.2025 ♥</span>
+      <h3 id="modal-letter-title" class="modal-letter-title"></h3>
+      <p id="modal-letter-body" class="modal-letter-body"></p>
+      <button type="button" id="modal-close-btn" class="modal-close-btn">Kapat ✕</button>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       4. UYGULAMA YAPILANDIRMASI VE JAVASCRIPT
+       ======================================================================== -->
+  <script>
+    /* ==========================================================================
+       SITE_CONFIG: FOTOĞRAFLARINI BURADAN KOLAYCA EKLEYEBİLİRSİN
+       Örnek: image: "foto1.jpg" veya image: "resimler/biz.jpg"
+       Boş ("") bırakıldığında şık pembe fotoğraf çerçevesi yer tutucusu görünür.
+       ========================================================================== */
+    const SITE_CONFIG = {
+      password: "3006",
+      startDate: "2025-06-30T00:00:00",
+      song: {
+        title: "Aşk",
+        artist: "Gökhan Türkmen",
+        defaultVolume: 0.5
+      },
+      polaroids: [
+        {
+          image: "resim1.jpeg", // Örn: "resim1.jpg"
+          title: "Evrenin En Güzel Günü",
+          subtitle: "30 Haziran 2025",
+          backNote: "30 Haziran 2025... Benim için asla unutulmayacak o ilk an. İyi ki hayatıma girdin, iyi ki varsın."
+        },
+        {
+          image: "resim2.jpeg", // Örn: "resim2.jpg"
+          title: "İlk Vedalaşmamız",
+          subtitle: "Zaman Dursun İstediğim An",
+          backNote: "Yanından ayrılmak hiç kolay değildi ama içimden bir ses seninle beraber büyüyüp yeniden buluşacağımızı hissettiriyordu. Beni haklı çıkardığın için sana çok teşekkür ederim🥹."
+        },
+        {
+          image: "resim3.jpg", // Örn: "foto3.jpg"
+          title: "Sadece İkimiz",
+          subtitle: "En Özel Anlarımız",
+          backNote: "Aslında en özel günüm yok çünkü seninle geçen her anım hayatımın en güzel hikayesine dönüşüyor. İyi ki varsın sevgilim."
+        }
+      ],
+      envelopes: [
+        {
+          title: "Beni Özlediğinde Aç",
+          text: "Şu an yanında olamasam da kalbim ve aklım hep seninle. Aramızda yüzlerce kilometreler olsa bile ben her zaman bir telefon uzağında olacağım. Buluşma zamanımız geldiğinde ise bu bekleyişimizin herşeye değdiğini göreceğiz. Seni çok seviyorum ♥. Sen yanımda olsan var ya..."
+        },
+        {
+          title: "Kendini Kötü Hissettiğinde Aç",
+          text: "Canın sıkkın olduğunda ya da yorulduğunda bil ki ben senin her zaman yanında olup sana destek vermek için burdayım .Uzakta da olsak yan yana da olsak elini hiç bırakmayacağım. Üzülme, her şey geçecek , ben hep seninleyim."
+        },
+        {
+          title: "Uyumadan Önce Aç",
+          text: "Bugün de seni çok severek uyuyacağım . İyi ki hayatımdasın, iyi ki birlikteyiz. Başını yastığa koy, bizi düşün ve huzurla uyu aşkım, rüyalarımızda buluşalım. İyi geceler, tatlı bizli rüyalar..."
+        },
+        {
+          title: "Neden Sen?",
+          text: "Çünkü sesiyle huzur bulduğum, gülüşüyle dünyamı güzelleştiren ve her haline ayrı aşık olduğum tek kişisin. İyi ki yollarımız kesişmiş, iyi ki birbirimizi bulmuşuz🤍."
+        }
+      ]
+    };
+
+    (function () {
+      'use strict';
+
+      /* DOM Elemanları */
+      var lockScreen = document.getElementById('lock-screen');
+      var lockHeartsBg = document.getElementById('lock-hearts-bg');
+      var lockCard = document.getElementById('lock-card');
+      var unlockForm = document.getElementById('unlock-form');
+      var passwordField = document.getElementById('password-field');
+      var togglePassBtn = document.getElementById('toggle-pass-btn');
+      var lockErrorMsg = document.getElementById('lock-error-msg');
+      var mainApp = document.getElementById('main-app');
+      var topLockBtn = document.getElementById('top-lock-btn');
+
+      var countDays = document.getElementById('count-days');
+      var countHours = document.getElementById('count-hours');
+      var countMinutes = document.getElementById('count-minutes');
+      var countSeconds = document.getElementById('count-seconds');
+
+      var audioPlayer = document.getElementById('audio-player');
+      var vinylDisc = document.getElementById('vinyl-disc');
+      var tonearmSvg = document.getElementById('tonearm-svg');
+      var albumCoverImg = document.getElementById('album-cover-img');
+      var vinylHeartIcon = document.getElementById('vinyl-heart-icon');
+      var playPauseBtn = document.getElementById('play-pause-btn');
+      var playPauseIcon = document.getElementById('play-pause-icon');
+      var playPauseText = document.getElementById('play-pause-text');
+      var progressBarBg = document.getElementById('progress-bar-bg');
+      var progressBarFill = document.getElementById('progress-bar-fill');
+      var timeCurrent = document.getElementById('time-current');
+      var timeDuration = document.getElementById('time-duration');
+      var volumeSlider = document.getElementById('volume-slider');
+      var volumeLabel = document.getElementById('volume-label');
+      var playerHint = document.getElementById('player-hint');
+
+      var polaroidGrid = document.getElementById('polaroid-grid');
+      var envelopesGrid = document.getElementById('envelopes-grid');
+
+      var letterModalBackdrop = document.getElementById('letter-modal-backdrop');
+      var modalFloatingHearts = document.getElementById('modal-floating-hearts');
+      var modalLetterTitle = document.getElementById('modal-letter-title');
+      var modalLetterBody = document.getElementById('modal-letter-body');
+      var modalCloseBtn = document.getElementById('modal-close-btn');
+
+      var playerState = {
+        isPlaying: false,
+        wantsToPlay: false,
+        previewReady: false
+      };
+
+      /* Yardımcı Fonksiyonlar */
+      function padZero(num) {
+        return num < 10 ? '0' + num : String(num);
+      }
+
+      function formatSeconds(sec) {
+        if (!isFinite(sec) || sec < 0) return '00:00';
+        var m = Math.floor(sec / 60);
+        var s = Math.floor(sec % 60);
+        return padZero(m) + ':' + padZero(s);
+      }
+
+      function normalizeTr(text) {
+        return String(text || '')
+          .replace(/İ/g, 'i')
+          .replace(/I/g, 'i')
+          .toLowerCase()
+          .replace(/ğ/g, 'g')
+          .replace(/ü/g, 'u')
+          .replace(/ş/g, 's')
+          .replace(/ı/g, 'i')
+          .replace(/ö/g, 'o')
+          .replace(/ç/g, 'c')
+          .replace(/[^a-z0-9\s]/g, ' ')
+          .replace(/\s+/g, ' ')
+          .trim();
+      }
+
+      /* ------------------------------------------------------------------------
+         1. KİLİT EKRANI KALPLERİ VE ŞİFRE DOĞRULAMA
+         ------------------------------------------------------------------------ */
+      function createLockHearts() {
+        var icons = ['♥', '🤍', '💕'];
+        for (var i = 0; i < 14; i++) {
+          var el = document.createElement('span');
+          el.className = 'floating-bg-heart';
+          el.textContent = icons[i % icons.length];
+          el.style.left = ((i * 7 + 4) % 94) + '%';
+          el.style.fontSize = (14 + (i % 4) * 5) + 'px';
+          el.style.animationDuration = (7 + (i % 5) * 1.6) + 's';
+          el.style.animationDelay = (-(i * 0.9)) + 's';
+          lockHeartsBg.appendChild(el);
+        }
+      }
+
+      createLockHearts();
+
+      togglePassBtn.addEventListener('click', function () {
+        passwordField.type = passwordField.type === 'password' ? 'text' : 'password';
+        passwordField.focus();
+      });
+
+      unlockForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var entered = (passwordField.value || '').trim();
+
+        if (entered === SITE_CONFIG.password) {
+          lockErrorMsg.classList.remove('visible');
+          lockScreen.classList.add('unlocked');
+          mainApp.classList.remove('is-locked');
+          window.scrollTo({ top: 0, behavior: 'auto' });
+
+          setPlayerVolume(Math.round(SITE_CONFIG.song.defaultVolume * 100));
+          playerState.wantsToPlay = true;
+          playTrack();
+        } else {
+          lockErrorMsg.classList.add('visible');
+          lockCard.classList.remove('shake');
+          void lockCard.offsetWidth;
+          lockCard.classList.add('shake');
+          passwordField.select();
+        }
+      });
+
+      topLockBtn.addEventListener('click', function () {
+        playerState.wantsToPlay = false;
+        pauseTrack();
+        passwordField.value = '';
+        passwordField.type = 'password';
+        lockErrorMsg.classList.remove('visible');
+        mainApp.classList.add('is-locked');
+        lockScreen.classList.remove('unlocked');
+      });
+
+      /* ------------------------------------------------------------------------
+         2. CANLI BİRLİKTELİK SAYACI
+         ------------------------------------------------------------------------ */
+      var startMs = new Date(SITE_CONFIG.startDate).getTime();
+
+      function updateLiveCounter() {
+        var diff = Math.max(0, Date.now() - startMs);
+        var totalSeconds = Math.floor(diff / 1000);
+        var days = Math.floor(totalSeconds / 86400);
+        var hours = Math.floor((totalSeconds % 86400) / 3600);
+        var minutes = Math.floor((totalSeconds % 3600) / 60);
+        var seconds = totalSeconds % 60;
+
+        countDays.textContent = String(days);
+        countHours.textContent = padZero(hours);
+        countMinutes.textContent = padZero(minutes);
+        countSeconds.textContent = padZero(seconds);
+      }
+
+      updateLiveCounter();
+      setInterval(updateLiveCounter, 1000);
+
+      /* ------------------------------------------------------------------------
+         3. BİZİM ŞARKIMIZ - GÖKHAN TÜRKMEN - AŞK (RESMİ 29 SN ÖNİZLEME)
+         ------------------------------------------------------------------------ */
+      function setPlayerVolume(pct) {
+        var clamped = Math.max(0, Math.min(100, Number(pct)));
+        volumeSlider.value = String(clamped);
+        volumeLabel.textContent = '%' + clamped;
+        audioPlayer.volume = clamped / 100;
+      }
+
+      setPlayerVolume(50);
+      audioPlayer.volume = 0.5;
+      audioPlayer.loop = true;
+
+      volumeSlider.addEventListener('input', function () {
+        setPlayerVolume(volumeSlider.value);
+      });
+
+      function syncPlayerUI(playing) {
+        playerState.isPlaying = playing;
+        if (playing) {
+          vinylDisc.classList.add('playing');
+          tonearmSvg.classList.add('playing');
+          playPauseIcon.textContent = '⏸';
+          playPauseText.textContent = 'Duraklat';
+        } else {
+          vinylDisc.classList.remove('playing');
+          tonearmSvg.classList.remove('playing');
+          playPauseIcon.textContent = '▶';
+          playPauseText.textContent = 'Çal';
+        }
+      }
+
+      function playTrack() {
+        playerState.wantsToPlay = true;
+        if (!audioPlayer.src || !playerState.previewReady) {
+          playerHint.textContent = 'Şarkı hazırlanıyor...';
+          return;
+        }
+
+        audioPlayer.volume = Number(volumeSlider.value) / 100;
+        audioPlayer.loop = true;
+
+        var promise = audioPlayer.play();
+        if (promise && typeof promise.then === 'function') {
+          promise.then(function () {
+            playerHint.textContent = '';
+            syncPlayerUI(true);
+          }).catch(function () {
+            syncPlayerUI(false);
+            playerHint.textContent = 'Başlatmak için Çal butonuna dokunabilirsin ♥';
+          });
+        } else {
+          playerHint.textContent = '';
+          syncPlayerUI(true);
+        }
+      }
+
+      function pauseTrack() {
+        playerState.wantsToPlay = false;
+        if (!audioPlayer.paused) {
+          audioPlayer.pause();
+        }
+        syncPlayerUI(false);
+      }
+
+      playPauseBtn.addEventListener('click', function () {
+        if (playerState.isPlaying) {
+          pauseTrack();
+        } else {
+          playTrack();
+        }
+      });
+
+      audioPlayer.addEventListener('loadedmetadata', function () {
+        if (isFinite(audioPlayer.duration) && audioPlayer.duration > 0) {
+          timeDuration.textContent = formatSeconds(audioPlayer.duration);
+        }
+      });
+
+      audioPlayer.addEventListener('timeupdate', function () {
+        if (!isFinite(audioPlayer.duration) || audioPlayer.duration <= 0) return;
+        var ratio = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+        progressBarFill.style.width = ratio + '%';
+        timeCurrent.textContent = formatSeconds(audioPlayer.currentTime);
+      });
+
+      audioPlayer.addEventListener('play', function () {
+        syncPlayerUI(true);
+        playerHint.textContent = '';
+      });
+
+      audioPlayer.addEventListener('pause', function () {
+        syncPlayerUI(false);
+      });
+
+      progressBarBg.addEventListener('click', function (e) {
+        if (!isFinite(audioPlayer.duration) || audioPlayer.duration <= 0) return;
+        var rect = progressBarBg.getBoundingClientRect();
+        var pos = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+        audioPlayer.currentTime = pos * audioPlayer.duration;
+      });
+
+      function setVerifiedAudio(previewUrl, artworkUrl) {
+        if (!previewUrl || playerState.previewReady) return;
+        playerState.previewReady = true;
+        audioPlayer.src = previewUrl;
+        audioPlayer.volume = Number(volumeSlider.value) / 100;
+        audioPlayer.loop = true;
+        audioPlayer.load();
+
+        if (artworkUrl) {
+          albumCoverImg.src = artworkUrl;
+          albumCoverImg.onload = function () {
+            albumCoverImg.classList.add('loaded');
+            vinylHeartIcon.style.display = 'none';
+          };
+        }
+
+        if (playerState.wantsToPlay) {
+          playTrack();
+        } else {
+          playerHint.textContent = '';
+        }
+      }
+
+      /* Yalnızca Gökhan Türkmen - Aşk şarkısını sıkı şekilde doğrular */
+      function findExactSongMatch(items, getArtist, getTitle, getPreview, getCover) {
+        if (!Array.isArray(items)) return null;
+        var exact = null;
+        var secondary = null;
+
+        for (var i = 0; i < items.length; i++) {
+          var item = items[i];
+          var preview = getPreview(item);
+          if (!preview) continue;
+
+          var artistClean = normalizeTr(getArtist(item));
+          var titleClean = normalizeTr(getTitle(item));
+
+          var matchesArtist =
+            artistClean.indexOf('gokhan') !== -1 &&
+            artistClean.indexOf('turkmen') !== -1;
+
+          if (!matchesArtist) continue;
+
+          if (titleClean === 'ask') {
+            exact = { preview: preview, cover: getCover(item) };
+            break;
+          }
+
+          if (
+            !secondary &&
+            (titleClean === 'ask' || titleClean.indexOf('ask ') === 0) &&
+            titleClean.indexOf('lazim') === -1 &&
+            titleClean.indexOf('olsun') === -1 &&
+            titleClean.indexOf('adami') === -1
+          ) {
+            secondary = { preview: preview, cover: getCover(item) };
+          }
+        }
+
+        return exact || secondary;
+      }
+
+      function fetchDeezerFallback() {
+        if (playerState.previewReady) return;
+        var cbName = 'deezer_cb_' + Date.now() + '_' + Math.floor(Math.random() * 10000);
+        var script = document.createElement('script');
+        var timer = setTimeout(function () {
+          cleanup();
+          if (!playerState.previewReady && playerState.wantsToPlay) {
+            playerHint.textContent = 'Şarkı önizlemesine şu an ulaşılamadı.';
+          }
+        }, 7000);
+
+        function cleanup() {
+          clearTimeout(timer);
+          try {
+            delete window[cbName];
+          } catch (err) {
+            window[cbName] = undefined;
+          }
+          if (script.parentNode) {
+            script.parentNode.removeChild(script);
+          }
+        }
+
+        window[cbName] = function (res) {
+          cleanup();
+          var list = res && Array.isArray(res.data) ? res.data : [];
+          var match = findExactSongMatch(
+            list,
+            function (t) { return t && t.artist ? t.artist.name : ''; },
+            function (t) { return t ? t.title : ''; },
+            function (t) { return t ? t.preview : ''; },
+            function (t) { return t && t.album ? (t.album.cover_medium || t.album.cover) : ''; }
+          );
+
+          if (match) {
+            setVerifiedAudio(match.preview, match.cover);
+          } else if (!playerState.previewReady && playerState.wantsToPlay) {
+            playerHint.textContent = 'Şarkı önizlemesine şu an ulaşılamadı.';
+          }
+        };
+
+        script.onerror = function () {
+          cleanup();
+        };
+
+        script.src = 'https://api.deezer.com/search?q=artist:%22Gokhan%20Turkmen%22%20track:%22Ask%22&output=jsonp&callback=' + cbName;
+        document.body.appendChild(script);
+      }
+
+      function fetchSongPreview() {
+        var url = 'https://itunes.apple.com/search?term=Gokhan+Turkmen+Ask&entity=song&limit=15&country=tr';
+        fetch(url)
+          .then(function (r) {
+            if (!r.ok) throw new Error('HTTP ' + r.status);
+            return r.json();
+          })
+          .then(function (data) {
+            var results = data && Array.isArray(data.results) ? data.results : [];
+            var match = findExactSongMatch(
+              results,
+              function (r) { return r ? r.artistName : ''; },
+              function (r) { return r ? r.trackName : ''; },
+              function (r) { return r ? r.previewUrl : ''; },
+              function (r) { return r && r.artworkUrl100 ? r.artworkUrl100.replace('100x100bb', '300x300bb') : ''; }
+            );
+
+            if (match) {
+              setVerifiedAudio(match.preview, match.cover);
+            } else {
+              fetchDeezerFallback();
+            }
+          })
+          .catch(function () {
+            fetchDeezerFallback();
+          });
+      }
+
+      fetchSongPreview();
+
+      /* ------------------------------------------------------------------------
+         4. POLAROİD GALERİ OLUŞTURMA VE ÇEVİRME ANİMASYONU
+         ------------------------------------------------------------------------ */
+      function togglePolaroidFlip(cardEl) {
+        if (cardEl.classList.contains('turning')) return;
+        cardEl.classList.add('turning');
+
+        setTimeout(function () {
+          cardEl.classList.toggle('is-flipped');
+          cardEl.classList.remove('turning');
+        }, 150);
+      }
+
+      function renderPolaroids() {
+        polaroidGrid.innerHTML = '';
+
+        SITE_CONFIG.polaroids.forEach(function (item) {
+          var card = document.createElement('article');
+          card.className = 'polaroid-card';
+          card.setAttribute('role', 'button');
+          card.setAttribute('tabindex', '0');
+          card.setAttribute('aria-label', item.title + ' kartını çevir');
+
+          var inner = document.createElement('div');
+          inner.className = 'polaroid-inner';
+
+          /* Ön Yüz */
+          var front = document.createElement('div');
+          front.className = 'polaroid-front';
+
+          var frame = document.createElement('div');
+          frame.className = 'polaroid-frame';
+
+          var img = document.createElement('img');
+          img.alt = item.title;
+
+          var placeholder = document.createElement('div');
+          placeholder.className = 'polaroid-empty-placeholder';
+          placeholder.innerHTML =
+            '<div class="placeholder-cam-icon" aria-hidden="true">' +
+              '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+                '<path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>' +
+                '<circle cx="12" cy="13" r="4"></circle>' +
+              '</svg>' +
+            '</div>' +
+            '<span class="placeholder-label">Fotoğraf Alanı</span>';
+
+          if (item.image && item.image.trim() !== '') {
+            img.src = item.image.trim();
+            frame.classList.add('has-image');
+            img.onerror = function () {
+              img.onerror = null;
+              frame.classList.remove('has-image');
+            };
+          }
+
+          frame.appendChild(img);
+          frame.appendChild(placeholder);
+
+          var meta = document.createElement('div');
+          meta.className = 'polaroid-meta';
+
+          var titleEl = document.createElement('h3');
+          titleEl.className = 'polaroid-card-title';
+          titleEl.textContent = item.title;
+
+          var subtitleEl = document.createElement('p');
+          subtitleEl.className = 'polaroid-card-subtitle';
+          subtitleEl.textContent = item.subtitle;
+
+          var hintFront = document.createElement('span');
+          hintFront.className = 'polaroid-flip-hint';
+          hintFront.textContent = 'Notu oku ↻';
+
+          meta.appendChild(titleEl);
+          meta.appendChild(subtitleEl);
+          meta.appendChild(hintFront);
+
+          front.appendChild(frame);
+          front.appendChild(meta);
+
+          /* Arka Yüz */
+          var back = document.createElement('div');
+          back.className = 'polaroid-back';
+
+          var heartTop = document.createElement('div');
+          heartTop.className = 'polaroid-back-heart';
+          heartTop.textContent = '♥';
+
+          var noteText = document.createElement('p');
+          noteText.className = 'polaroid-back-note';
+          noteText.textContent = item.backNote;
+
+          var hintBack = document.createElement('span');
+          hintBack.className = 'polaroid-flip-hint';
+          hintBack.textContent = 'Fotoğrafa dön ↺';
+
+          back.appendChild(heartTop);
+          back.appendChild(noteText);
+          back.appendChild(hintBack);
+
+          inner.appendChild(front);
+          inner.appendChild(back);
+          card.appendChild(inner);
+
+          card.addEventListener('click', function () {
+            togglePolaroidFlip(card);
+          });
+
+          card.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              togglePolaroidFlip(card);
+            }
+          });
+
+          polaroidGrid.appendChild(card);
+        });
+      }
+
+      renderPolaroids();
+
+      /* ------------------------------------------------------------------------
+         5. RUH HALİNİN ZARFLARI VE MEKTUP MODALI
+         ------------------------------------------------------------------------ */
+      var modalHeartsTimer = null;
+
+      function startModalHearts() {
+        stopModalHearts();
+        modalFloatingHearts.innerHTML = '';
+        modalHeartsTimer = setInterval(function () {
+          var heart = document.createElement('span');
+          heart.className = 'modal-rise-heart';
+          heart.textContent = Math.random() > 0.35 ? '♥' : '🤍';
+          heart.style.left = Math.round(Math.random() * 92 + 4) + '%';
+          heart.style.fontSize = Math.round(Math.random() * 14 + 14) + 'px';
+          heart.style.animationDuration = (Math.random() * 2.4 + 3.4).toFixed(2) + 's';
+          modalFloatingHearts.appendChild(heart);
+
+          setTimeout(function () {
+            if (heart.parentNode) heart.parentNode.removeChild(heart);
+          }, 6000);
+        }, 420);
+      }
+
+      function stopModalHearts() {
+        if (modalHeartsTimer) {
+          clearInterval(modalHeartsTimer);
+          modalHeartsTimer = null;
+        }
+      }
+
+      function openLetterModal(envelopeObj, envEl) {
+        if (envEl) {
+          envEl.classList.add('opening');
+        }
+
+        setTimeout(function () {
+          modalLetterTitle.textContent = envelopeObj.title;
+          modalLetterBody.textContent = envelopeObj.text;
+          letterModalBackdrop.classList.add('open');
+          startModalHearts();
+        }, 280);
+      }
+
+      function closeLetterModal() {
+        letterModalBackdrop.classList.remove('open');
+        stopModalHearts();
+        document.querySelectorAll('.envelope-item.opening').forEach(function (el) {
+          el.classList.remove('opening');
+        });
+      }
+
+      function renderEnvelopes() {
+        envelopesGrid.innerHTML = '';
+
+        SITE_CONFIG.envelopes.forEach(function (envData) {
+          var env = document.createElement('div');
+          env.className = 'envelope-item';
+          env.setAttribute('role', 'button');
+          env.setAttribute('tabindex', '0');
+          env.setAttribute('aria-label', envData.title + ' zarfını aç');
+
+          env.innerHTML =
+            '<div class="envelope-letter-peek"></div>' +
+            '<div class="envelope-pocket-left"></div>' +
+            '<div class="envelope-pocket-right"></div>' +
+            '<div class="envelope-pocket-bottom"></div>' +
+            '<div class="envelope-flap-top"></div>' +
+            '<div class="wax-seal">30.06 ♥</div>' +
+            '<div class="envelope-label-card">' +
+              '<h3 class="envelope-title"></h3>' +
+            '</div>';
+
+          env.querySelector('.envelope-title').textContent = envData.title;
+
+          env.addEventListener('click', function () {
+            openLetterModal(envData, env);
+          });
+
+          env.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              openLetterModal(envData, env);
+            }
+          });
+
+          envelopesGrid.appendChild(env);
+        });
+      }
+
+      renderEnvelopes();
+
+      modalCloseBtn.addEventListener('click', closeLetterModal);
+
+      letterModalBackdrop.addEventListener('click', function (e) {
+        if (e.target === letterModalBackdrop) {
+          closeLetterModal();
+        }
+      });
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && letterModalBackdrop.classList.contains('open')) {
+          closeLetterModal();
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
